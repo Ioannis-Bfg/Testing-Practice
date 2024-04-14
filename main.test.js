@@ -1,22 +1,41 @@
 const { beforeEach } = require("node:test");
-const { capitalize, reverseString, calculator } = require("./main");
+const {
+  capitalize,
+  reverseString,
+  calculator,
+  caesarCipher,
+  analyzeArray,
+} = require("./main");
 
 describe("My tests", () => {
-  test("capitalize works correctly", () => {
-    let cap1 = capitalize("hello world");
-    let cap2 = capitalize("HeLlO wORlD");
-    expect(cap1).toBe("Hello world");
-    expect(cap2).toBe("HeLlO wORlD");
+  describe("Capitalize works correctly", () => {
+    test("capitalize works correctly for multiple words", () => {
+      let cap1 = capitalize("hello world");
+      expect(cap1).toBe("Hello world");
+    });
+
+    test("capitalize keeps case", () => {
+      let cap2 = capitalize("HeLlO wORlD");
+      expect(cap2).toBe("HeLlO wORlD");
+    });
   });
 
-  test("reverseString works correctly", () => {
-    let str1 = reverseString("race car");
-    let str2 = reverseString("hello");
-    let str3 = reverseString("This is a Test?");
+  describe("ReverseString works correctly", () => {
+    test("works for 2 words", () => {
+      let str1 = reverseString("race car");
 
-    expect(str1).toBe("rac ecar");
-    expect(str2).toBe("olleh");
-    expect(str3).toBe("?tseT a si sihT");
+      expect(str1).toBe("rac ecar");
+    });
+    test("works for single word", () => {
+      let str2 = reverseString("hello");
+
+      expect(str2).toBe("olleh");
+    });
+
+    test("works for punctuation", () => {
+      let str3 = reverseString("This is a Test?");
+      expect(str3).toBe("?tseT a si sihT");
+    });
   });
 
   describe("Calculator works correctly", () => {
@@ -42,6 +61,42 @@ describe("My tests", () => {
       expect(calculator.div(2, 1)).toBe(2);
       expect(calculator.div(6, -3)).toBe(-2);
       expect(calculator.div(-4, -8)).toBe("0.5");
+    });
+  });
+
+  describe("Caesar cipher works", () => {
+    test("wrapping from a to z", () => {
+      expect(caesarCipher("abcdefghijklmnopqrstuvwxyz")).toBe(
+        "defghijklmnopqrstuvwxyzabc"
+      );
+    });
+
+    test("keeping the same case", () => {
+      expect(caesarCipher("Hello World")).toBe("Khoor Zruog");
+    });
+
+    test("punctuation is not affected", () => {
+      expect(caesarCipher("Hello! It's me, here?.")).toBe(
+        "Khoor! Lw'v ph, khuh?."
+      );
+    });
+  });
+
+  describe("Analyze array works", () => {
+    test("average is correctly calculated", () => {
+      expect(analyzeArray([1, 8, 3, 4, 2, 6]).average).toBe(4);
+    });
+
+    test("min is correctly calculated", () => {
+      expect(analyzeArray([1, 8, 3, 4, 2, 6]).min).toBe(1);
+    });
+
+    test("max is correctly calculated", () => {
+      expect(analyzeArray([1, 8, 3, 4, 2, 6]).max).toBe(8);
+    });
+
+    test("length is correctly calculated", () => {
+      expect(analyzeArray([1, 8, 3, 4, 2, 6]).length).toBe(6);
     });
   });
 });
